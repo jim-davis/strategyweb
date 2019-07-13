@@ -1,6 +1,7 @@
 import React from 'react';
 import './Strategy.css';
 import Footer from './Footer.js';
+import Teams from './Teams.js';
 import PickList from './PickList.js';
 
 import arctos_logo from './arctos_logo.png';
@@ -23,7 +24,10 @@ function Strategy() {
 
 function Event() {
 	return (
-	<h2>Event {event_key}</h2>
+		<div>
+			<h2>Event {event_key}</h2>
+			<Teams event={event_key}/>
+		</div>
 	);
 }
 
