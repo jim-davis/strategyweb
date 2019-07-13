@@ -1,0 +1,32 @@
+.Strategy {
+  background-color: #282c34;
+  color: white;
+  min-height: 100vh;
+  padding-left: 1em;
+}
+
+a {
+  color: white;
+}
+
+.Strategy-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: calc(10px + 2vmin);
+}
+
+
+.footer {
+  margin-top: 4em;
+  border-top: 1px solid;
+  padding-top: 1em;
+  font-size: 75%;
+  vertical-align: bottom;
+}
+
+.pick-list table td,th {
+text-align: left;
+padding-right: 1em;
+}

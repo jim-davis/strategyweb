@@ -1,2 +1,6 @@
 # strategyweb
-prototype web app for scouting
+
+prototype web app for strategy
+
+
+
