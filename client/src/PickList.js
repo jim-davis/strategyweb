@@ -1,6 +1,23 @@
 import React from 'react';
 
 class PickList extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
+
+	// lifecycle events
+	componentDidMount() {
+		console.log("Added to DOM");
+		
+	}
+
+	componentWillUnmount() {
+		console.log("Removed from  DOM");
+
+	}
+
+
 	render() {
 		return (
 <div className="pick-list">

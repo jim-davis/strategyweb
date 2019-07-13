@@ -1,5 +1,5 @@
 {
-  "name": "Strategy Website prototype client",
+  "name": "strategy_web_client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
