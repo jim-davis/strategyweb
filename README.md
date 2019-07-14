@@ -11,6 +11,11 @@ npm start
 
 This will run react on port 3000 and the api server on port 3001
 
+Todo:
+
+1. The event dropdown should only show events that Arctos went to.  Check the team list.
+2. Ability to add an unscheduled match to the db
+
 Design note:
 
 In theory, one could run the entire app in the client, with no backend server.  It *could* make calls to MySql and TBA.  But at events there is no internet, so there's no calling TBA. 
