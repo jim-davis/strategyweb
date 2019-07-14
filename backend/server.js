@@ -67,7 +67,7 @@ router.get('/getMatches', (req, res) => {
                ,blue1 ,blue1_name
                ,blue2 ,blue2_name
                ,blue3 ,blue3_name
-       FROM match_teams
+       FROM denormalized_schedule
        WHERE event_code = ?
        ORDER BY practice DESC, match_number ASC`,
 		[event_code],
