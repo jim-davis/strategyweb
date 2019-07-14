@@ -18,6 +18,7 @@ class PickList extends React.Component {
 	render() {
 		return (
 				<div className="pick-list">
+                <h2>Pick List</h2>
 				<table>
 				  <thead>
 					<tr><th>Rank</th><th>Number</th><th>Name</th><th>Climb</th></tr>
