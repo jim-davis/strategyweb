@@ -1,39 +1,45 @@
 import React from 'react';
+import axios from 'axios';
+
 
 class PickList extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {picks: []};
 	}
 
 	// lifecycle events
 	componentDidMount() {
-		console.log("Added to DOM");
-		
-	}
-
-	componentWillUnmount() {
-		console.log("Removed from  DOM");
-
+		axios.get('http://localhost:3001/api/getPickList')
+			.then((response) => this.setState({ picks: response.data.data }));
 	}
 
 
 	render() {
 		return (
-<div className="pick-list">
+				<div className="pick-list">
 				<table>
 				  <thead>
-					<tr><th>Rank</th><th>Number</th><th>Name</th><th>Desireabilty</th><th>Climb</th></tr>
+					<tr><th>Rank</th><th>Number</th><th>Name</th><th>Climb</th></tr>
 				  </thead>
 				  <tbody>
-					<tr><td>1</td><td>259</td><td>Stream Bat Robotics</td><td>12.35</td><td>2.3</td></tr>
-					<tr><td>2</td><td>2056</td><td>OP Robotics</td><td>11.07</td><td>2.3</td></tr>
+				{this.state.picks.map(p => <Pick pick={p}/>)}
 				  </tbody>
 				</table>
-</div>
-				);
+                </div>
+		);
 	}
 }
 
+function Pick(props) {
+	const pick = props.pick;
+	return (<tr key={pick.team_number}>
+		<td>{pick.rank}</td>
+		<td>{pick.team_number}</td>
+		<td>{pick.name}</td>
+		<td>{pick.climb}</td>
+		</tr>);
+}
 
+		
 export default PickList;

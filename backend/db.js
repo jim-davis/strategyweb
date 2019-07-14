@@ -13,19 +13,17 @@ function get_connection() {
 //c can send queries to the connection object
 //c is expected to close connection when done
 function with_connection(c) {
-    var connection = get_connection();
+    const connection = get_connection();
     
     connection.connect(function(err) {
-	if (err) {
-	    console.error('Error connecting: ' + err.stack);
-	    return;
-	}
+		if (err) {
+			console.error('Error connecting: ' + err.stack);
+			return;
+		}
 	
     });
 
-    console.log("Got connection " + connection);
     c(connection);
-    
 }
 
 module.exports.with_connection = with_connection;
