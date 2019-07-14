@@ -5,18 +5,20 @@
   padding-left: 1em;
 }
 
+h1 {font-size: 18pt}
+
 a {
   color: white;
 }
 
 header {
-  text-align: center;
   align-items: center;
   font-size: calc(10px + 2vmin);
 }
 
 header .titleBar {
 	float: right;
+	text-align: center;
 	padding-right: 10em;
 	border-right: 1px solid;
 }
@@ -25,6 +27,7 @@ header .eventBar {
 	float: right;
 	padding-right: 2em;
 	padding-left: 2em;
+	min-width: 320px;
 }
 
 div.app {
