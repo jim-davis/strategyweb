@@ -25,20 +25,20 @@ db.with_connection(c => connection = c);
 
 // all events
 router.get('/getEvents', (req, res) => {
-	connection.query(
-		`SELECT DISTINCT event_code FROM frc_event ORDER BY event_code`,
-		(error, results) => error
-			? res.json({success: false, error: error})
-		    : res.json({success: true, data: results}));
+    connection.query(
+        `SELECT DISTINCT event_code FROM frc_event ORDER BY event_code`,
+        (error, results) => error
+            ? res.json({success: false, error: error})
+            : res.json({success: true, data: results}));
 });
 
 // ?event_code=2019onosh
 router.get('/getTeams', (req, res) => {
-	try {
-		const event_code = req.query.event_code;
-		console.log(`Getting teams from event ${event_code}`);
-		connection.query(
-			`SELECT DISTINCT t.team_number, team.name
+    try {
+        const event_code = req.query.event_code;
+        console.log(`Getting teams from event ${event_code}`);
+        connection.query(
+            `SELECT DISTINCT t.team_number, team.name
              FROM frc_match m 
              INNER JOIN alliance a
                      ON a.match_id = m.match_id
@@ -48,25 +48,45 @@ router.get('/getTeams', (req, res) => {
                      ON team.team_number = t.team_number
              WHERE m.event_code = ?
              ORDER BY t.team_number ASC`,
-			[event_code],
-			(error, results) => error
-				? res.json({success: false, error: error})
-			: res.json({success: true, data: results}));
-	} catch (err) {
-		res.json({success: false, error: err});
-	}
+            [event_code],
+            (error, results) => error
+                ? res.json({success: false, error: error})
+            : res.json({success: true, data: results}));
+    } catch (err) {
+        res.json({success: false, error: err});
+    }
 });
 
+router.get('/getMatches', (req, res) => {
+    const event_code = req.query.event_code;
+    connection.query(
+        `SELECT practice, match_number
+               ,red1 ,red1_name
+               ,red2 ,red2_name
+               ,red3 ,red3_name
+               ,blue1 ,blue1_name
+               ,blue2 ,blue2_name
+               ,blue3 ,blue3_name
+       FROM match_teams
+       WHERE event_code = ?
+       ORDER BY practice DESC, match_number ASC`,
+		[event_code],
+        (error, results) => error
+            ? res.json({success: false, error: error})
+        : res.json({success: true, data: results}));
+});
+
+
 router.get('/getPicklist', (req, res) => 
-	// to be replaced by a complicated SQL query
-	res.json({success: true, data: [
-		{rank: 1, team_number: 259, name: "Stream Bat Robotics", climb: 2.3},
-		{rank: 2, team_number: 2056, name: "Overpowered Robotics", climb: 2.1}
-		]
-			 }));
+    // to be replaced by a complicated SQL query
+    res.json({success: true, data: [
+        {rank: 1, team_number: 259, name: "Stream Bat Robotics", climb: 2.3},
+        {rank: 2, team_number: 2056, name: "Overpowered Robotics", climb: 2.1}
+        ]
+             }));
 
 
-	
+    
 // All API requests are under the url /api, e.g. /api/getTeams
 app.use('/api', router);
 

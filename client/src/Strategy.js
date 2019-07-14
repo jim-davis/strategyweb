@@ -1,6 +1,7 @@
 import React from 'react';
 import './Strategy.css';
 import Footer from './Footer.js';
+import Matches from './Matches.js';
 import Teams from './Teams.js';
 import PickList from './PickList.js';
 import axios from 'axios';
@@ -20,7 +21,8 @@ class Strategy extends React.Component {
 		this.eventSelected = this.eventSelected.bind(this);
         this.state={events: [],
 					teams: [],
-                   event_code: null};
+					matches: [],
+					event_code: null};
     }
 
     componentDidMount() {
@@ -35,6 +37,7 @@ class Strategy extends React.Component {
 		console.log("An event has been chosen: " + event_code);
 		this.setState({event_code: event_code});
 		this.getTeams(event_code);
+        this.getMatches(event_code);
 	}
 
 	// get the list of all events from the server
@@ -48,6 +51,13 @@ class Strategy extends React.Component {
 		axios.get("http://localhost:3001/api/getTeams?event_code=" + event_code)
 			.then((response) => this.setState({ teams: response.data.data }));
 	}
+
+	getMatches(event_code) {
+		console.log("getting matches for " + event_code);
+		axios.get("http://localhost:3001/api/getMatches?event_code=" + event_code)
+			.then((response) => this.setState({ matches: response.data.data }));
+	}
+
 
     render() {
         return (
@@ -65,6 +75,7 @@ class Strategy extends React.Component {
                 </header>
                 <div className='app'>
                   <PickList/>
+                  <Matches event_code={this.state.event_code} matches={this.state.matches}/>
                   <Teams event_code={this.state.event_code} teams={this.state.teams}/>
                 </div>
                 <Footer/>
