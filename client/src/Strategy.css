@@ -1,6 +1,4 @@
 .Strategy {
-  background-color: #282c34;
-  color: white;
   min-height: 100vh;
   padding-left: 1em;
 }
@@ -8,7 +6,6 @@
 h1 {font-size: 18pt}
 
 a {
-  color: white;
 }
 
 header {
