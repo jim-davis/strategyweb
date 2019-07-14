@@ -23,7 +23,7 @@ class PickList extends React.Component {
 					<tr><th>Rank</th><th>Number</th><th>Name</th><th>Climb</th></tr>
 				  </thead>
 				  <tbody>
-				{this.state.picks.map(p => <Pick pick={p}/>)}
+				{this.state.picks.map((p,i) => <Pick pick={p} key={p.team_number} />)}
 				  </tbody>
 				</table>
                 </div>

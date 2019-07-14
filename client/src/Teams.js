@@ -13,10 +13,15 @@ class Teams extends React.Component {
 			.then((response) => this.setState({ teams: response.data.data }));
 	}
 
+	static getDerivedStateFromProps(props, state) {
+		return {event_code: props.event_code};
+	}
+
 	render() {
 		return(
 			<div>
 				<h2>Teams</h2>
+				{this.state.event_code ? (
 				<table>
 				<thead>
 				<tr><th>Number</th><th>Name</th></tr>
@@ -24,7 +29,7 @@ class Teams extends React.Component {
 				<tbody>
 				{this.state.teams.map(team => <tr key={team.team_number}><td>{team.team_number}</td><td>{team.name}</td></tr>)}
 				</tbody>
-				</table>
+				</table>) : <span>Select an event</span>}
 				</div>
 		);
 	}

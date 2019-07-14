@@ -9,16 +9,31 @@ a {
   color: white;
 }
 
-.Strategy-header {
+header {
   text-align: center;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   font-size: calc(10px + 2vmin);
 }
 
+header .titleBar {
+	float: right;
+	padding-right: 10em;
+	border-right: 1px solid;
+}
 
-.footer {
+header .eventBar {
+	float: right;
+	padding-right: 2em;
+	padding-left: 2em;
+}
+
+div.app {
+	clear: both;
+	border-top: 1px solid;
+	padding-top: 1em;
+}
+
+footer {
   margin-top: 4em;
   border-top: 1px solid;
   padding-top: 1em;
