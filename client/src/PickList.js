@@ -35,7 +35,7 @@ class PickList extends React.Component {
 function Pick(props) {
 	const pick = props.pick;
 	return (<tr key={pick.team_number}>
-		<td>{pick.rank}</td>
+		<td>{pick.ranking}</td>
 		<td>{pick.team_number}</td>
 		<td>{pick.name}</td>
 		<td>{pick.climb}</td>
