@@ -25,7 +25,7 @@ function Pick(props) {
 		<td>{pick.ranking}</td>
 		<td>{pick.team_number}</td>
 		<td>{pick.name}</td>
-		<td>{pick.climb}</td>
+		<td>{pick.climb.toFixed(2)}</td>
 		</tr>);
 }
 
