@@ -77,23 +77,35 @@ router.get('/getMatches', (req, res) => {
 });
 
 
-router.get('/getPicklist', (req, res) => 
-connection.query(
+router.get('/getPicklist', (req, res) =>  {
+    const event_code = req.query.event_code;
+    // This is a totally FAKE query. Just used  to show that dynamic updating works.
+    // it just picks 10 teams at random from the teams that are at the event.
+    // Somebody will write a real picklist query.
+    connection.query(
    `SELECT 
        ROW_NUMBER() OVER (ORDER BY fake.climb DESC) as ranking,
        fake.*
     FROM  (SELECT random_teams.*, rand() * 3 as climb
-           FROM (SELECT team.* 
-                 FROM team
+           FROM (SELECT DISTINCT t.team_number, team.name
+             FROM frc_match m 
+             INNER JOIN alliance a
+                     ON a.match_id = m.match_id
+             INNER JOIN alliance_member t
+                     ON t.alliance_id = a.alliance_id
+             INNER JOIN team
+                     ON team.team_number = t.team_number
+             WHERE m.event_code = ?
                  ORDER BY RAND()
                  LIMIT 10) as random_teams
            ) AS fake
     ORDER BY ranking ASC`,
-    [],
+    [event_code],
     (error, results) => error 
        ? res.json({success: false, error: error})
-       : res.json({success: true, data: results}))
-);
+       : res.json({success: true, data: results}));
+});
+
 
 // All API requests are under the url /api, e.g. /api/getTeams
 app.use('/api', router);
