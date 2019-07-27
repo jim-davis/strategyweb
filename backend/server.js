@@ -78,15 +78,23 @@ router.get('/getMatches', (req, res) => {
 
 
 router.get('/getPicklist', (req, res) => 
-    // to be replaced by a complicated SQL query
-    res.json({success: true, data: [
-        {rank: 1, team_number: 259, name: "Stream Bat Robotics", climb: 2.3},
-        {rank: 2, team_number: 2056, name: "Overpowered Robotics", climb: 2.1}
-        ]
-             }));
+connection.query(
+   `SELECT 
+       ROW_NUMBER() OVER (ORDER BY fake.climb DESC) as ranking,
+       fake.*
+    FROM  (SELECT random_teams.*, rand() * 3 as climb
+           FROM (SELECT team.* 
+                 FROM team
+                 ORDER BY RAND()
+                 LIMIT 10) as random_teams
+           ) AS fake
+    ORDER BY ranking ASC`,
+    [],
+    (error, results) => error 
+       ? res.json({success: false, error: error})
+       : res.json({success: true, data: results}))
+);
 
-
-    
 // All API requests are under the url /api, e.g. /api/getTeams
 app.use('/api', router);
 
