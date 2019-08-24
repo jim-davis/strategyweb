@@ -9,6 +9,7 @@ import Footer from './Footer.js';
 import Matches from './Matches.js';
 import Teams from './Teams.js';
 import PickList from './PickList.js';
+import ScoutingOutput from './ScoutingOutput.js';
 
 // The base URL for the server.
 const API = "http://localhost:3001";
@@ -18,10 +19,11 @@ class Strategy extends React.Component {
         super(props);
 		this.eventSelected = this.eventSelected.bind(this);
         this.state={events: [],
-					teams: [],
-					matches: [],
+		    teams: [],
+		    matches: [],
+		    scouting_output: [],
                     picklist: [],
-					event_code: null};
+		    event_code: null};
     }
 
     // React calls this method (once) after the component has been rendered.
@@ -44,20 +46,24 @@ class Strategy extends React.Component {
     refresh() {
         // add calls here to refresh any other dynamic component, or a clock, or whatever
         this.getPicklist(this.state.event_code);
+	this.getScoutingOutput(this.state.event_code);
     }
 
 	// a new Event has been selected (in the event bar)
 	eventSelected(event_code) {
         // Remember the event_code
-		this.setState({event_code: event_code});
-        this.getEventSpecificInfo(event_code);
+	    this.setState({event_code: event_code});
+	    console.log("event_code:" + event_code);
+            this.getEventSpecificInfo(event_code);
+	  
 	}
 
     getEventSpecificInfo(event_code) {
         if (event_code) {
-		    this.getTeams(event_code);
+	    console.log("getting event info");
+	    this.getTeams(event_code);
             this.getMatches(event_code);
-            this.getMatches(event_code);
+            this.getScoutingOutput(event_code);
         }
     }
 
@@ -65,21 +71,28 @@ class Strategy extends React.Component {
     // after it arrives, update our state with the response.
     getEvents() {
         axios.get(api("getEvents"))
-			.then(response => this.setState({ events: response.data.data}));
+	    .then(response => this.setState({ events: response.data.data}));
     }
-
+    
     // get the set of teams at the current event, then update our state
-	getTeams(event_code) {
-		axios.get("http://localhost:3001/api/getTeams?event_code=" + event_code)
-			.then((response) => this.setState({ teams: response.data.data }));
-	}
-
+    getTeams(event_code) {
+	axios.get("http://localhost:3001/api/getTeams?event_code=" + event_code)
+	    .then((response) => this.setState({ teams: response.data.data }));
+    }
+    
     // get the list of matches at the current event, then update our state
-	getMatches(event_code) {
-		axios.get("http://localhost:3001/api/getMatches?event_code=" + event_code)
-			.then((response) => this.setState({ matches: response.data.data }));
-	}
-
+    getMatches(event_code) {
+	console.log("getting schedule");
+	axios.get("http://localhost:3001/api/getMatches?event_code=" + event_code)
+	    .then((response) => this.setState({ matches: response.data.data }));
+    }
+    
+    //get the scouting output, then update our state
+    getScoutingOutput(event_code) {
+	axios.get(API + "/api/getScoutingOutput?event_code=" + event_code)
+	    .then((response) => this.setState({ scouting_output: response.data.data }));
+    }
+    
     // get the picklist
     getPicklist(event_code) {
 		axios.get("http://localhost:3001/api/getPicklist?event_code=" + event_code)
@@ -100,13 +113,17 @@ class Strategy extends React.Component {
           <div className='app'>
             <Tabs>
               <TabList>
-                <Tab>Matches</Tab>
+                <Tab>Schedule</Tab>
+		<Tab>Scouting Output</Tab>
                 <Tab>Teams</Tab>
                 <Tab>Pick List</Tab>
               </TabList>
               <TabPanel>
                 <Matches event_code={this.state.event_code} matches={this.state.matches}/>
-              </TabPanel>
+		</TabPanel>
+		<TabPanel>
+		<ScoutingOutput event_code={this.state.event_code} scouting_output={this.state.scouting_output}/>
+		</TabPanel>
               <TabPanel>
                 <Teams event_code={this.state.event_code} teams={this.state.teams}/>
               </TabPanel>

@@ -60,7 +60,7 @@ router.get('/getTeams', (req, res) => {
 router.get('/getMatches', (req, res) => {
     const event_code = req.query.event_code;
     connection.query(
-        `SELECT practice, match_number
+        `SELECT match_type, match_number
                ,red1 ,red1_name
                ,red2 ,red2_name
                ,red3 ,red3_name
@@ -69,11 +69,41 @@ router.get('/getMatches', (req, res) => {
                ,blue3 ,blue3_name
        FROM denormalized_schedule
        WHERE event_code = ?
-       ORDER BY practice DESC, match_number ASC`,
+       ORDER BY match_type DESC, match_number ASC`,
 		[event_code],
         (error, results) => error
             ? res.json({success: false, error: error})
         : res.json({success: true, data: results}));
+});
+
+router.get('/getScoutingOutput', (req, res) => {
+    const event_code = req.query.event_code;
+    //based off of view_scouting_output.js
+    
+    if (event_code) {
+	console.log("specific");
+	connection.query("SELECT * FROM specific_scouting_output sso " +
+			 " WHERE sso.event_code = ? "+
+			 "ORDER BY sso.team_number ",
+			 [event_code],
+			 (error, results) =>
+			 (error)
+			 ? res.json({success: false, error: error})
+			 : res.json({success: true, data: results})
+			);
+    }
+	   
+    else {
+	console.log("all");
+	connection.query("SELECT * FROM all_scouting_output aso " +
+			 " ORDER BY aso.team_number",
+			 [],
+			 (error, results) =>
+			 (error)
+			 ? res.json({success: false, error: error})
+			 : res.json({success: true, data: results})
+			);
+    }
 });
 
 

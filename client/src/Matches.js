@@ -29,7 +29,7 @@ class Matches extends React.Component {
                       <td>{m.blue3}</td>
                     </tr>))}
                 </tbody>
-                </table>) : <span>Select an event</span>}
+			</table>) :<span>Select an event</span>}
                 </div>
         );
     }
