@@ -79,8 +79,6 @@ router.get('/getMatches', (req, res) => {
 router.get('/getScoutingOutput', (req, res) => {
     const event_code = req.query.event_code;
     //based off of view_scouting_output.js
-    
-    if (event_code) {
 	console.log("specific");
 	connection.query("SELECT * FROM specific_scouting_output sso " +
 			 " WHERE sso.event_code = ? "+
@@ -91,19 +89,7 @@ router.get('/getScoutingOutput', (req, res) => {
 			 ? res.json({success: false, error: error})
 			 : res.json({success: true, data: results})
 			);
-    }
-	   
-    else {
-	console.log("all");
-	connection.query("SELECT * FROM all_scouting_output aso " +
-			 " ORDER BY aso.team_number",
-			 [],
-			 (error, results) =>
-			 (error)
-			 ? res.json({success: false, error: error})
-			 : res.json({success: true, data: results})
-			);
-    }
+    
 });
 
 
